@@ -12,9 +12,15 @@ and open the template in the editor.
     <body>
         <?php
         
-        #include ("connect/connection.php");
-        #include ("funciones.php");
-        #$connection = connectDBc();
+        include ("connection.php");
+        include ("models/funciones.php");
+
+        $connection = new Connection();
+        $con = $connection->connect();
+        $persistence  = new Persistence();
+        $persistence->add($con, $code, $username)
+        
+        
   
         ?>
         <h1>chocoBank</h1>
