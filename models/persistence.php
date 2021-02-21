@@ -4,36 +4,39 @@
  */
 inclide("Usuario.php");
 class Persistence{
-    public $map;
+    //MAP Usuarios
+    public $mapUsuarios;
+    //MAP Cuenta
+    public 
 
     
     function __construct(){
-        $this->map = new \Ds\Map();;
+        $this->$mapUsuarios = new \Ds\Map();;
     }
 
 
     function add($usuario){
         $var=1;
-        $this->map->put($usuario->getIdUsuario,$usuario);
+        $this->$mapUsuarios->put($usuario->getIdUsuario,$usuario);
         return($var);
     }
 
     function modify($idUser,$username){
         $var=1;
-        $xUser =  $this->map->remove($idUser);
+        $xUser =  $this->$mapUsuarios->remove($idUser);
         $this->lista->put($xUser);
         return($var);
     }
 
     function delete($idUser){
         $var=1;
-        $this->map->remove($idUser);
+        $this->$mapUsuarios->remove($idUser);
         return($var);
     }
 
     function listUsers(){
         $var=1;
-        foreach($this->map as &$value ){
+        foreach($this->$mapUsuarios as &$value ){
             echo $value;
         }
         return($var);
