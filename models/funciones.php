@@ -33,5 +33,5 @@ function listUsers($connetion){
         $code= odbc_result($rs, 1);
         $username= odbc_result($rs, 2);
         echo "<br>-->".$code,"--->".$username."<br>";
-    }   
+    }
 }
