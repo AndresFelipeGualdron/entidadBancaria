@@ -11,6 +11,7 @@
 		<select name="actor" id="cars">
 		  <option value="user">user</option>
 		  <option value="administrator">Adminsitrator</option>
+		  <option value="auditor">Auditor</option>
 		</select>
         
         <label for="name">Username:</label>
