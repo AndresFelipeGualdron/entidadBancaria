@@ -4,6 +4,6 @@
 	<title></title>
 </head>
 <body>
-	<h1>REGISTER</h1>
+	<h1>USER: <?php echo $_SESSION["name"]; ?></h1>
 </body>
 </html>
