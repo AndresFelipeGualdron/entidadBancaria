@@ -7,6 +7,7 @@ class Route {
 				$_GET["ruta"] == "login" ||
 				$_GET["ruta"] == "register" ||
 				$_GET["ruta"] == "user" ||
+				$_GET["ruta"] == "auditor" ||
 				$_GET["ruta"] == "administrator"
 			){
 				include "vistas/".$_GET["ruta"].".view.php";
