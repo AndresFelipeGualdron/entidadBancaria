@@ -16,11 +16,27 @@ class Route {
 					exit();
 					break;
 				case 'register':
+					$actor = $_POST["actor"];
 					$user = $_POST["user"];
 					$password = $_POST["password"];
 					break;
 				case 'user':
-					# code...
+					if(isset($_POST["solicitud"])){
+						$solicitud = $_POST["solicitud"];
+						switch ($solicitud) {
+							case 'transaccion':
+								
+								break;
+							case 'viwMoney':
+								break;
+							case 'allTransferencias':
+								break;
+							
+							default:
+								# code...
+								break;
+						}
+					}
 					break;
 				case 'auditor':
 					# code...
