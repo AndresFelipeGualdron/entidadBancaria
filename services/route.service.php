@@ -1,6 +1,9 @@
 <?php
+include "models/persistence.php";
+include "models/Usuario.php";
 
 class Route {
+	private $persistence = new persistence();
 	public function initRoute() {
 		if(isset($_GET["ruta"])){
 			$ruta = $_GET["ruta"];
@@ -17,8 +20,9 @@ class Route {
 					break;
 				case 'register':
 					$actor = $_POST["actor"];
+					$id = $_POST["id"];
 					$user = $_POST["user"];
-					$password = $_POST["password"];
+					$persistence -> addUser(new Usuario($id, $user));
 					break;
 				case 'user':
 					if(isset($_POST["solicitud"])){

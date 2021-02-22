@@ -94,9 +94,9 @@ class Persistence{
             $this->subSaldoCuenta($cuenta1,$valor);
             $this->addSaldoCuenta($cuenta2,$valor);
         } else {
-            echo "transaccion fallida";
+            #echo "transaccion fallida";
         }
-        print_r("transaccion realizada!!!");
+        #print_r("transaccion realizada!!!");
         
         return $var;
     }
