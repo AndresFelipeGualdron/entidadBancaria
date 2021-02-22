@@ -5,7 +5,10 @@ if(isset($_POST["actor"])) {
 		$_SESSION["name"] = $_POST["user"];
 		if ($_POST["actor"] == "user") {
 			header("Location: http://localhost:8081/entidadBancaria/?ruta=user");
-		}else {
+		}elseif ($_POST["actor"] == "auditor") {
+			header("Location: http://localhost:8081/entidadBancaria/?ruta=auditor");
+		}
+		else {
 			header("Location: http://localhost:8081/entidadBancaria/?ruta=administrator");
 		}
 		
