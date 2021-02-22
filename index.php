@@ -11,15 +11,16 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        
-        include ("connection.php");
-        include ("models/funciones.php");
-
-        $connection = new Connection();
-        $con = $connection->connect();
+        include_once("models/Usuario.php");
+        include_once("models/connection.php");
+        include("models/persistence.php");
+        #Conexion a db
+        $conn = new Connection();
+        $conn->connect();
+        ###
         $persistence  = new Persistence();
-        $persistence->add($con, $code, $username)
-        
+        $user= new Usuario(123,"Michael Perez");
+        $persistence->addUser($user,$conn);
         
   
         ?>

@@ -11,6 +11,11 @@ class Usuario {
     public $idUsuario;
     public $nombres;
     
+    function __construct($id, $nombres) {
+        $this->idUsuario=$id;
+        $this->nombres=$nombres;
+    }
+    
     function setIdUsuario($id){
         $this->idUsuario = $id;
     }

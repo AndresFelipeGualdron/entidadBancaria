@@ -2,29 +2,29 @@
 /***
  * 
  */
-inclide("Usuario.php");
+include_once("Usuario.php");
+include_once("Connection.php");
 class Persistence{
-    //MAP Usuarios
-    public $mapUsuarios;
-    //MAP Cuenta
-    public $mapCuentas;
-    //MAP Empleados
-    public $mapEmpleados;
-
-    
+   
     function __construct(){
-        $this->$mapUsuarios = new \Ds\Map();
-        $this->$mapCuentas = new \Ds\Map();
-        $this->$mapEmpleados = new \Ds\Map();
+ 
     }
 
-
-    function addUser($usuario){
+    /**
+     * 
+     * @param Class Usuario, 
+     * @param type Connection
+     * @return type
+     */
+    function addUser($usuario, $conn){
         $var=1;
-        $this->$mapUsuarios->put($usuario->getIdUsuario,$usuario);
+        $sql="insert into usuario (idusuario,nombres) values ('$usuario->idUsuario','$usuario->nombres')";
+        $stmp = oci_parse($conn, $sql);
+        oci_execute($stmp);
+
         return($var);
     }
-
+    /*
     function modifyUser($idUser,$username){
         $var=1;
         $xUser =  $this->$mapUsuarios->remove($idUser);
@@ -45,4 +45,7 @@ class Persistence{
         }
         return($var);
     }
+    ***/
+    
+   
 }
