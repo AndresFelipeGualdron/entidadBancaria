@@ -58,27 +58,27 @@ class Persistence{
         return($var);
     }
     
-    function consultarSaldo($cuenta){
+    function consultarSaldo($idcuenta){
         $var=1;
         $con = $this->conn->connect3()->prepare(""
-                . "select saldo from dbBank.cuenta where idcuenta='".$cuenta->idCuenta."'");
+                . "select saldo from dbBank.cuenta where idcuenta='".$idcuenta."'");
         $saldo = $con->execute();
         return saldo;
     }
     
-    function  addSaldoCuenta($cuenta,$valor){
+    function  addSaldoCuenta($idcuenta,$valor){
         $var=1;
-        $valorFinal = consultarSaldo($cuenta)+ $valor;
+        $valorFinal = consultarSaldo($idcuenta)+ $valor;
         $con = $this->conn->connect3()->prepare("update dbBank.cuenta set "
-                    . "saldo='".$valorFinal."' where idcuenta='".$cuenta->idCuenta."'");
+                    . "saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
         $con->execute();
         return saldo;
     }
-    function  subSaldoCuenta($cuenta,$valor){
+    function  subSaldoCuenta($idcuenta,$valor){
         $var=1;
-        $valorFinal = consultarSaldo($cuenta)- $valor;
+        $valorFinal = consultarSaldo($idcuenta)- $valor;
         $con = $this->conn->connect3()->prepare("update dbBank.cuenta set "
-                    . "saldo='".$valorFinal."' where idcuenta='".$cuenta->idCuenta."'");
+                    . "saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
         $con->execute();
         return $var;
     }    
@@ -88,11 +88,11 @@ class Persistence{
      * @param type $cuenta2
      * Transferir dinero de la cuenta1 a la cuenta2
      */
-    function transacction($cuenta1,$cuenta2,$valor){
+    function transacction($idcuenta1,$idcuenta2,$valor){
         $var=1;
-        if(consultarSaldo($cuenta1)>=$valor){
-            $this->subSaldoCuenta($cuenta1,$valor);
-            $this->addSaldoCuenta($cuenta2,$valor);
+        if(consultarSaldo($idcuenta1)>=$valor){
+            $this->subSaldoCuenta($idcuenta1,$valor);
+            $this->addSaldoCuenta($idcuenta2,$valor);
         } else {
             #echo "transaccion fallida";
         }
@@ -100,5 +100,7 @@ class Persistence{
         
         return $var;
     }
-   
+   function consultarMovimientos($idusuario){
+       
+   }
 }
