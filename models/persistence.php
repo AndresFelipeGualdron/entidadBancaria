@@ -3,6 +3,8 @@
  * 
  */
 include_once("Usuario.php");
+include_once("Empleado.php");
+include_once("Cuenta.php");
 include_once("services/Connection.php");
 class Persistence{
     public $conn;
@@ -47,6 +49,13 @@ class Persistence{
         return($var);
     }
     
-    
+    function createAccountUsuario($cuenta, $idUsuario){
+        $var=1;
+        $con = $this->conn->connect3()->prepare("insert into dbbank.cuenta (idcuenta,saldo,tipo,idusuario) values (
+               '".$cuenta->idCuenta."','".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
+        $con->execute();
+        print_r("inserted!!!");
+        return($var);
+    }
    
 }
