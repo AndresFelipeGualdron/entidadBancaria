@@ -57,5 +57,48 @@ class Persistence{
         print_r("inserted!!!");
         return($var);
     }
+    
+    function consultarSaldo($cuenta){
+        $var=1;
+        $con = $this->conn->connect3()->prepare(""
+                . "select saldo from dbBank.cuenta where idcuenta='".$cuenta->idCuenta."'");
+        $saldo = $con->execute();
+        return saldo;
+    }
+    
+    function  addSaldoCuenta($cuenta,$valor){
+        $var=1;
+        $valorFinal = consultarSaldo($cuenta)+ $valor;
+        $con = $this->conn->connect3()->prepare("update dbBank.cuenta set "
+                    . "saldo='".$valorFinal."' where idcuenta='".$cuenta->idCuenta."'");
+        $con->execute();
+        return saldo;
+    }
+    function  subSaldoCuenta($cuenta,$valor){
+        $var=1;
+        $valorFinal = consultarSaldo($cuenta)- $valor;
+        $con = $this->conn->connect3()->prepare("update dbBank.cuenta set "
+                    . "saldo='".$valorFinal."' where idcuenta='".$cuenta->idCuenta."'");
+        $con->execute();
+        return $var;
+    }    
+    /**
+     * 
+     * @param type $cuenta1
+     * @param type $cuenta2
+     * Transferir dinero de la cuenta1 a la cuenta2
+     */
+    function transacction($cuenta1,$cuenta2,$valor){
+        $var=1;
+        if(consultarSaldo($cuenta1)>=$valor){
+            $this->subSaldoCuenta($cuenta1,$valor);
+            $this->addSaldoCuenta($cuenta2,$valor);
+        } else {
+            echo "transaccion fallida";
+        }
+        print_r("transaccion realizada!!!");
+        
+        return $var;
+    }
    
 }
