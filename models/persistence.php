@@ -2,10 +2,7 @@
 /***
  * 
  */
-include_once("Usuario.php");
-include_once("Empleado.php");
-include_once("Cuenta.php");
-include_once("services/Connection.php");
+
 class Persistence{
     public $conn;
    
@@ -23,6 +20,7 @@ class Persistence{
         $var=1;
         $con = $this->conn->connect3()->prepare("insert into usuario (idusuario,nombres) values ('$usuario->idUsuario','$usuario->nombres')");
         $con->execute();
+        $con=null;
 
         return($var);
     }
@@ -38,6 +36,7 @@ class Persistence{
         $var=1;
         $con = $this->conn->connect3()->prepare("delete from dbBank.usuario where idusuario='".$idUser."'");
         $con->execute();
+        $con=null;
         return($var);
     }
     
@@ -46,6 +45,7 @@ class Persistence{
         $con = $this->conn->connect3()->prepare("select * from dbBank.usuario");
         $con->execute();
         print_r($con->fetchAll());
+        $con=null;
         return($var);
     }
     
@@ -54,32 +54,34 @@ class Persistence{
         $con = $this->conn->connect3()->prepare("insert into dbbank.cuenta (idcuenta,saldo,tipo,idusuario) values (
                '".$cuenta->idCuenta."','".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
         $con->execute();
-        print_r("inserted!!!");
+        $con=null;
         return($var);
     }
     
     function consultarSaldo($idcuenta){
         $var=1;
-        $con = $this->conn->connect3()->prepare(""
-                . "select saldo from dbBank.cuenta where idcuenta='".$idcuenta."'");
-        $saldo = $con->execute();
-        return saldo;
+        $con = $this->conn->connect3()->prepare("select saldo from dbBank.cuenta where idcuenta='".$idcuenta."'");
+        $con->execute();
+        $saldo = $con->fetch();
+        return $saldo[0];
     }
     
     function  addSaldoCuenta($idcuenta,$valor){
         $var=1;
-        $valorFinal = consultarSaldo($idcuenta)+ $valor;
-        $con = $this->conn->connect3()->prepare("update dbBank.cuenta set "
-                    . "saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
+        $valorAnterior = $this->consultarSaldo($idcuenta); 
+        
+        $valorFinal = $valorAnterior + ($valor);
+        $con = $this->conn->connect3()->prepare("update dbBank.cuenta set saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
         $con->execute();
-        return saldo;
+        $con=null;
+        return $var;
     }
     function  subSaldoCuenta($idcuenta,$valor){
         $var=1;
-        $valorFinal = consultarSaldo($idcuenta)- $valor;
-        $con = $this->conn->connect3()->prepare("update dbBank.cuenta set "
-                    . "saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
+        $valorFinal = $this->consultarSaldo($idcuenta) - ($valor);
+        $con = $this->conn->connect3()->prepare("update dbBank.cuenta set saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
         $con->execute();
+        $con=null;
         return $var;
     }    
     /**
@@ -90,17 +92,14 @@ class Persistence{
      */
     function transacction($idcuenta1,$idcuenta2,$valor){
         $var=1;
-        if(consultarSaldo($idcuenta1)>=$valor){
+        if( $this->consultarSaldo($idcuenta1)>=$valor){
             $this->subSaldoCuenta($idcuenta1,$valor);
             $this->addSaldoCuenta($idcuenta2,$valor);
         } else {
             #echo "transaccion fallida";
         }
         #print_r("transaccion realizada!!!");
-        
+        $con=null;
         return $var;
     }
-   function consultarMovimientos($idusuario){
-       
-   }
 }

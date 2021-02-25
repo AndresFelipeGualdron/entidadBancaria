@@ -1,12 +1,10 @@
 <?php
-include "models/persistence.php";
-include "models/Usuario.php";
 
 class Route {
 	private $persistence;
         
-        function  Route(){
-        $this->persistence = new Persistence();    
+function __construct(){
+            $this->persistence = new Persistence();    
         }
 	public function initRoute() {
 		if(isset($_GET["ruta"])){
@@ -26,7 +24,7 @@ class Route {
 					$actor = $_POST["actor"];
 					$id = $_POST["id"];
 					$user = $_POST["user"];
-					$persistence -> addUser(new Usuario($id, $user));
+					$this->persistence -> addUser(new Usuario($id, $user));
                                         header("HTTP/1.1 202 Accepted");
                                         exit();
 					break;
@@ -38,20 +36,20 @@ class Route {
                                                             $idCuenta1 = $_POST["id1"];
                                                             $idCuenta2 = $_POST["id2"];
                                                             $valor = $_POST["valor"];
-                                                            $persistence -> transacction($idCuenta1,$idCuenta2,$valor);
+                                                            $this->persistence -> transacction($idCuenta1,$idCuenta2,$valor);
                                                             header("HTTP/1.1 202 Accepted");
                                                             exit();
                                                             break;
 							case 'totalDineroDisponible':
                                                             $id = $_POST["id"];
                                                             header("HTTP/1.1 202 Accepted");
-                                                            echo json_encode($persistence -> consultarSaldo($id));
+                                                            echo json_encode($this->persistence -> consultarSaldo($id));
                                                             exit();
                                                             break;
 							case 'addDineroCuenta':
                                                             $id = $_POST["id"];
                                                             $valor = $_POST["valor"];
-                                                            $persistence -> addSaldoCuenta($id,$valor);
+                                                            $this->persistence -> addSaldoCuenta($id,$valor);
                                                             header("HTTP/1.1 202 Accepted");
                                                             exit();
 							    break;
