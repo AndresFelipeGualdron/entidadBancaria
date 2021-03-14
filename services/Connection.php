@@ -7,7 +7,6 @@ class Connection {
     public static $socket="";
     public static $user="masterUsername";
     public static $password="gualdrongualdron";
-    public static $ ="w390giNc9MXP2b20fg9L";
     
     public function connect3(){
         $mbd = new PDO($hos, $user, $password,
