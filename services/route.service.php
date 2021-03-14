@@ -6,8 +6,9 @@ class Route {
         
 function __construct(){
             $this->persistence = new Persistence();
-            $this->$loginService = new loginService();
+            $this->loginService = new LoginService();
         }
+
 	public function initRoute() {
 		if(isset($_GET["ruta"])){
 			$ruta = $_GET["ruta"];
@@ -26,9 +27,28 @@ function __construct(){
 					$actor = $_POST["actor"];
 					$id = $_POST["id"];
 					$user = $_POST["user"];
-					$this->persistence -> addUser(new Usuario($id, $user));
-                                        header("HTTP/1.1 202 Accepted");
-                                        exit();
+					$password = $_POST["password"];
+					try{
+						if ($actor == "administrator") {
+							$this->persistence -> addAdministrator(new Usuario($id, $user, $password));
+	                                        header("HTTP/1.1 202 Accepted");
+	                                        exit();
+						}elseif ($actor == "auditor") {
+							$this->persistence -> addAuditor(new Usuario($id, $user, $password));
+	                                        header("HTTP/1.1 202 Accepted");
+	                                        exit();
+						}else{
+							$this->persistence -> addUser(new Usuario($id, $user, $password));
+	                                        header("HTTP/1.1 202 Accepted");
+	                                        exit();
+						}
+					}catch(PDOException $e){
+						print_r($e);
+						header("HTTP/1.1 500 Server Error");
+                        exit();
+					}
+					
+					
 					break;
 				case 'user':
 					if(isset($_POST["solicitud"])){
