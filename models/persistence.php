@@ -18,7 +18,25 @@ class Persistence{
      */
     function addUser($usuario){
         $var=1;
-        $con = $this->conn->connect3()->prepare("insert into usuario (idusuario,nombres) values ('$usuario->idUsuario','$usuario->nombres')");
+        $con = $this->conn->connect3()->prepare("insert into usuario (idusuario,nombres,password) values ('$usuario->idUsuario','$usuario->nombres,$usuario->password')");
+        $con->execute();
+        $con=null;
+
+        return($var);
+    }
+
+    function addAdministrator($usuario){
+        $var=1;
+        $con = $this->conn->connect3()->prepare("insert into empleado (idusuario,nombres,password,cargo) values ('$usuario->idUsuario','$usuario->nombres, $usuario->password,\'administrator\')");
+        $con->execute();
+        $con=null;
+
+        return($var);
+    }
+
+    function addAuditor($usuario){
+        $var=1;
+        $con = $this->conn->connect3()->prepare("insert into empleado (idusuario,nombres,password,cargo) values ('$usuario->idUsuario','$usuario->nombres, $usuario->password', \'administrator\')");
         $con->execute();
         $con=null;
 
