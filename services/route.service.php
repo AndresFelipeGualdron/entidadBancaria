@@ -2,9 +2,11 @@
 
 class Route {
 	private $persistence;
+	private $loginService;
         
 function __construct(){
-            $this->persistence = new Persistence();    
+            $this->persistence = new Persistence();
+            $this->$loginService = new loginService();
         }
 	public function initRoute() {
 		if(isset($_GET["ruta"])){
@@ -33,8 +35,8 @@ function __construct(){
 						$solicitud = $_POST["solicitud"];
 						switch ($solicitud) {
 							case 'transaccion':
-                                                            $idCuenta1 = $_POST["id1"];
-                                                            $idCuenta2 = $_POST["id2"];
+                                                            $idCuenta1 = $_POST["cuentaOrigen"];
+                                                            $idCuenta2 = $_POST["cuentaDestino"];
                                                             $valor = $_POST["valor"];
                                                             $this->persistence -> transacction($idCuenta1,$idCuenta2,$valor);
                                                             header("HTTP/1.1 202 Accepted");
@@ -53,7 +55,14 @@ function __construct(){
                                                             header("HTTP/1.1 202 Accepted");
                                                             exit();
 							    break;
-							
+                                                        case 'ultimosMovimientos':
+                                                            
+                                                            $accountId = $_POST["accountId"];
+                                                            echo json_encode($this->persistence -> consultarMovimientosCuenta($accountId));
+                                                            header("HTTP/1.1 202 Accepted");
+                                                            exit();
+							    break;
+                                                        
 							default:
 								# code...
 								break;
@@ -61,8 +70,25 @@ function __construct(){
 					}
 					break;
 				case 'auditor':
-					# code...
-					break;
+                                    if(isset($_POST["solicitud"])){
+                                            $solicitud = $_POST["solicitud"];   
+                                            switch ($solicitud) {
+                                                case 'movimientos':
+                                                    echo json_encode($this->persistence -> todosLosMovimientos());
+                                                    header("HTTP/1.1 202 Accepted");
+                                                    exit();
+                                                    break;
+                                                case 'totalMovimientos':
+                                                    echo json_encode($this->persistence -> totalDeTransferencias());
+                                                    header("HTTP/1.1 202 Accepted");
+                                                    exit();
+                                                    break;
+                                                default:
+                                                    # code...
+						break;
+                                            }
+                                    }
+                                    break;
 				case 'administrator':
 					# code...
 					break;
