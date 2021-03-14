@@ -6,6 +6,7 @@
     include 'models/Persistence.php';
     include "controllers/user.controller.php";
     include "services/route.service.php";
+    include "services/login.service.php";
 
 
 //------

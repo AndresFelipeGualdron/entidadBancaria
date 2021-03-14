@@ -2,9 +2,11 @@
 
 class Route {
 	private $persistence;
+	private $loginService;
         
 function __construct(){
-            $this->persistence = new Persistence();    
+            $this->persistence = new Persistence();
+            $this->$loginService = new loginService();
         }
 	public function initRoute() {
 		if(isset($_GET["ruta"])){
