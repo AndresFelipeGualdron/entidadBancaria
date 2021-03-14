@@ -70,8 +70,20 @@ function __construct(){
 					}
 					break;
 				case 'auditor':
-
-					break;
+                                    if(isset($_POST["solicitud"])){
+                                            $solicitud = $_POST["solicitud"];   
+                                            switch ($solicitud) {
+                                                case 'movimientos':
+                                                    echo json_encode($this->persistence -> todosLosMovimientos());
+                                                    header("HTTP/1.1 202 Accepted");
+                                                    exit();
+                                                    break;
+                                                default:
+                                                    # code...
+						break;
+                                            }
+                                    }
+                                    break;
 				case 'administrator':
 					# code...
 					break;

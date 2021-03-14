@@ -118,4 +118,13 @@ class Persistence{
         return $listaMovimientos;
         
     }
+    function todosLosMovimientos(){
+        $listaMovimientos= array();
+        $con = $this->conn->connect3()->prepare("SELECT valor,fechaHora,cuentaOrigen,cuentaDestino FROM dbbank.Transaccion");
+        $con->execute();
+        while ($fila = $con->fetch()) {
+            array_push($listaMovimientos,$fila);
+        }
+        return $listaMovimientos;
+    }
 }
