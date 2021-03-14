@@ -55,7 +55,14 @@ function __construct(){
                                                             header("HTTP/1.1 202 Accepted");
                                                             exit();
 							    break;
-							
+                                                        case 'ultimosMovimientos':
+                                                            
+                                                            $accountId = $_POST["accountId"];
+                                                            echo json_encode($this->persistence -> consultarMovimientosCuenta($accountId));
+                                                            header("HTTP/1.1 202 Accepted");
+                                                            exit();
+							    break;
+                                                        
 							default:
 								# code...
 								break;
@@ -63,7 +70,7 @@ function __construct(){
 					}
 					break;
 				case 'auditor':
-					# code...
+
 					break;
 				case 'administrator':
 					# code...

@@ -107,4 +107,15 @@ class Persistence{
         $con=null;
         return $var;
     }
+    function consultarMovimientosCuenta($accountId){
+        $listaMovimientos= array();
+        $con = $this->conn->connect3()->prepare("SELECT valor,fechaHora,cuentaOrigen,cuentaDestino FROM dbbank.Transaccion WHERE (cuentaOrigen='".$accountId."' or cuentaDestino='".$accountId."')");
+        $con->execute();
+        while ($fila = $con->fetch()) {
+            array_push($listaMovimientos,$fila);
+        }
+        
+        return $listaMovimientos;
+        
+    }
 }
