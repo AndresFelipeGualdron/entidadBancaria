@@ -78,6 +78,11 @@ function __construct(){
                                                     header("HTTP/1.1 202 Accepted");
                                                     exit();
                                                     break;
+                                                case 'totalMovimientos':
+                                                    echo json_encode($this->persistence -> totalDeTransferencias());
+                                                    header("HTTP/1.1 202 Accepted");
+                                                    exit();
+                                                    break;
                                                 default:
                                                     # code...
 						break;

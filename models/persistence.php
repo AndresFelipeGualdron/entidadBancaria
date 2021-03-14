@@ -127,4 +127,11 @@ class Persistence{
         }
         return $listaMovimientos;
     }
+    function totalDeTransferencias(){
+        $fila=1;
+        $con = $this->conn->connect3()->prepare("SELECT COUNT(valor) as NumeroDeTransacciones,SUM(valor) as MontoTotalDeTransacciones FROM dbbank.Transaccion");
+        $con->execute();
+        $fila = $con->fetch();
+        return $fila;
+    }
 }
