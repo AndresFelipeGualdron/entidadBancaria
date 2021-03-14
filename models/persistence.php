@@ -95,8 +95,13 @@ class Persistence{
         if( $this->consultarSaldo($idcuenta1)>=$valor){
             $this->subSaldoCuenta($idcuenta1,$valor);
             $this->addSaldoCuenta($idcuenta2,$valor);
+            $con = $this->conn->connect3()->prepare("INSERT INTO dbbank.Transaccion (valor,cuentaOrigen,cuentaDestino) VALUES (
+               '".$valor."','".$idcuenta1."','".$idcuenta2."')");
+            $con->execute();
+            $con=null;
         } else {
             #echo "transaccion fallida";
+            
         }
         #print_r("transaccion realizada!!!");
         $con=null;

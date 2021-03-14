@@ -35,8 +35,8 @@ function __construct(){
 						$solicitud = $_POST["solicitud"];
 						switch ($solicitud) {
 							case 'transaccion':
-                                                            $idCuenta1 = $_POST["id1"];
-                                                            $idCuenta2 = $_POST["id2"];
+                                                            $idCuenta1 = $_POST["cuentaOrigen"];
+                                                            $idCuenta2 = $_POST["cuentaDestino"];
                                                             $valor = $_POST["valor"];
                                                             $this->persistence -> transacction($idCuenta1,$idCuenta2,$valor);
                                                             header("HTTP/1.1 202 Accepted");
