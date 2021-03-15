@@ -56,6 +56,7 @@ function __construct(){
 					if(isset($_POST["solicitud"])){
 						$solicitud = $_POST["solicitud"];
 						switch ($solicitud) {
+
 							case 'transaccion':
                                                             $idCuenta1 = $_POST["cuentaOrigen"];
                                                             $idCuenta2 = $_POST["cuentaDestino"];
@@ -95,6 +96,14 @@ function __construct(){
                                     if(isset($_POST["solicitud"])){
                                             $solicitud = $_POST["solicitud"];   
                                             switch ($solicitud) {
+                                                case 'crearCuenta':
+                                                    $idCuenta = $_POST["numeroDeCuenta"];
+                                                    $tipo = $_POST["tipo"];
+                                                    $persona = $_POST["persona"];
+                                                    $this->persistence -> createAccountUsuario(new Cuenta($idCuenta, $tipo), $persona );
+                                                    header("HTTP/1.1 202 Accepted");
+                                                    exit();
+                                                    break;
                                                 case 'movimientos':
                                                     echo json_encode($this->persistence -> todosLosMovimientos());
                                                     header("HTTP/1.1 202 Accepted");

@@ -72,8 +72,8 @@ class Persistence{
     
     function createAccountUsuario($cuenta, $idUsuario){
         $var=1;
-        $con = $this->conn->connect3()->prepare("insert into dbbank.Cuenta (saldo,tipo,persona) values (
-               '".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
+        $con = $this->conn->connect3()->prepare("insert into dbbank.Cuenta (idCuenta,saldo,tipo,persona) values (
+               '".$cuenta->idCuenta."','".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
         $con->execute();
         $con=null;
         return($var);
