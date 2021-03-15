@@ -18,7 +18,7 @@ class Persistence{
      */
     function addUser($usuario){
         $var=1;
-        $con = $this->conn->connect3()->prepare("insert into usuario (idusuario,nombres,password) values ('$usuario->idUsuario','$usuario->nombres,$usuario->password')");
+        $con = $this->conn->connect3()->prepare("insert into dbbank.Persona (identificacion,tipoIdentificacion,nombre,password) values ('$usuario->idUsuario','$usuario->tipoIdentificacion','$usuario->nombres','$usuario->password')");
         $con->execute();
         $con=null;
 
@@ -27,7 +27,9 @@ class Persistence{
 
     function addAdministrator($usuario){
         $var=1;
-        $con = $this->conn->connect3()->prepare("insert into empleado (idusuario,nombres,password,cargo) values ('$usuario->idUsuario','$usuario->nombres, $usuario->password,\'administrator\')");
+        print_r($usuario->tipoIdentificacion);
+        $con = $this->conn->connect3()->prepare("insert into dbbank.Empleado (idEmpleado,password,tipoIdentificacion,nombre,cargo) "
+                . "values ('$usuario->idUsuario','$usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Administrator')");
         $con->execute();
         $con=null;
 
@@ -36,7 +38,8 @@ class Persistence{
 
     function addAuditor($usuario){
         $var=1;
-        $con = $this->conn->connect3()->prepare("insert into empleado (idusuario,nombres,password,cargo) values ('$usuario->idUsuario','$usuario->nombres, $usuario->password', \'administrator\')");
+        $con = $this->conn->connect3()->prepare("insert into dbbank.Empleado (idEmpleado,password,tipoIdentificacion,nombre,cargo) "
+                ."values ('$usuario->idUsuario','$usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Auditor')");
         $con->execute();
         $con=null;
 
@@ -52,7 +55,7 @@ class Persistence{
 
     function deleteUser($idUser){
         $var=1;
-        $con = $this->conn->connect3()->prepare("delete from dbbank.Persona where idusuario='".$idUser."'");
+        $con = $this->conn->connect3()->prepare("delete from dbbank.Persona where identificacion='".$idUser."'");
         $con->execute();
         $con=null;
         return($var);
@@ -69,8 +72,8 @@ class Persistence{
     
     function createAccountUsuario($cuenta, $idUsuario){
         $var=1;
-        $con = $this->conn->connect3()->prepare("insert into dbbank.Cuenta (idcuenta,saldo,tipo,idusuario) values (
-               '".$cuenta->idCuenta."','".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
+        $con = $this->conn->connect3()->prepare("insert into dbbank.Cuenta (saldo,tipo,persona) values (
+               '".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
         $con->execute();
         $con=null;
         return($var);
@@ -78,7 +81,7 @@ class Persistence{
     
     function consultarSaldo($idcuenta){
         $var=1;
-        $con = $this->conn->connect3()->prepare("select saldo from dbbank.Cuenta where idcuenta='".$idcuenta."'");
+        $con = $this->conn->connect3()->prepare("select saldo from dbbank.Cuenta where idCuenta='".$idcuenta."'");
         $con->execute();
         $saldo = $con->fetch();
         return $saldo[0];
@@ -89,7 +92,7 @@ class Persistence{
         $valorAnterior = $this->consultarSaldo($idcuenta); 
         
         $valorFinal = $valorAnterior + ($valor);
-        $con = $this->conn->connect3()->prepare("update dbbank.Cuenta set saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
+        $con = $this->conn->connect3()->prepare("update dbbank.Cuenta set saldo='".$valorFinal."' where idCuenta='".$idcuenta."'");
         $con->execute();
         $con=null;
         return $var;
@@ -132,7 +135,7 @@ class Persistence{
         while ($fila = $con->fetch()) {
             array_push($listaMovimientos,$fila);
         }
-        
+        $con=null;
         return $listaMovimientos;
         
     }
@@ -143,6 +146,7 @@ class Persistence{
         while ($fila = $con->fetch()) {
             array_push($listaMovimientos,$fila);
         }
+        $con=null;
         return $listaMovimientos;
     }
     function totalDeTransferencias(){
@@ -150,6 +154,7 @@ class Persistence{
         $con = $this->conn->connect3()->prepare("SELECT COUNT(valor) as NumeroDeTransacciones,SUM(valor) as MontoTotalDeTransacciones FROM dbbank.Transaccion");
         $con->execute();
         $fila = $con->fetch();
+        $con=null;
         return $fila;
     }
 }

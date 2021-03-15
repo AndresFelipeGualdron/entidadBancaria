@@ -26,19 +26,21 @@ function __construct(){
 				case 'register':
 					$actor = $_POST["actor"];
 					$id = $_POST["id"];
-					$user = $_POST["user"];
-					$password = $_POST["password"];
+					$user = $_POST["userName"];
+                                        /* @var $_POST type */
+                                        $tipo = $_POST["tipoIdentificacion"];
+					$password = $_POST["password"]; 
 					try{
 						if ($actor == "administrator") {
-							$this->persistence -> addAdministrator(new Usuario($id, $user, $password));
+							$this->persistence -> addAdministrator(new Usuario($id,$tipo, $user, $password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}elseif ($actor == "auditor") {
-							$this->persistence -> addAuditor(new Usuario($id, $user, $password));
+							$this->persistence -> addAuditor(new Usuario($id,$tipo, $user, $password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}else{
-							$this->persistence -> addUser(new Usuario($id, $user, $password));
+							$this->persistence -> addUser(new Usuario($id,$tipo, $user, $password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}

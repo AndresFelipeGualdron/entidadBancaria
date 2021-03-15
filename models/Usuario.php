@@ -9,13 +9,15 @@
 class Usuario {
     //put your code here
     public $idUsuario;
+    public $tipoIdentificacion;
     public $nombres;
     public $password;
     
-    function __construct($id, $nombres, $password) {
+    function __construct($id, $tipo, $nombres, $password) {
         $this->idUsuario=$id;
         $this->nombres=$nombres;
         $this->password=$password;
+        $this->tipoIdentificacion = $tipo;
     }
     
     function setIdUsuario($id){
@@ -26,5 +28,8 @@ class Usuario {
     }
     function setPassword($password){
         $this->password=$password;
+    }
+    function  setTipoIdentificacion($tipo){
+        $this->tipoIdentificacion= $tipo;
     }
 }
