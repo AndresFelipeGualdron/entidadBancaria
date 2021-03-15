@@ -157,4 +157,31 @@ class Persistence{
         $con=null;
         return $fila;
     }
+
+    function getUserById($user){
+        $con = $this->conn->connect3()->prepare("select * from dbbank.User where (id = $user->idUsuario)");
+        $con->execute();
+        print_r($con->fetch());
+        $var = $con->fetch();
+        $con=null;
+        return($var);
+    }
+
+    function getAdministratorById($empleado){
+        $con = $this->conn->connect3()->prepare("select * from dbbank.Administrator where (id = $user->idEmpleado)");
+        $con->execute();
+        print_r($con->fetch());
+        $var = $con->fetch();
+        $con=null;
+        return($var);
+    }
+
+    function getAuditorById($auditor){
+        $con = $this->conn->connect3()->prepare("select * from dbbank.Auditor where (id = $user->idEmpleado)");
+        $con->execute();
+        print_r($con->fetch());
+        $var = $con->fetch();
+        $con=null;
+        return($var);
+    }
 }

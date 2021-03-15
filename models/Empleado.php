@@ -16,11 +16,13 @@ class Empleado {
     public $idEmpleado;
     public $nombres;
     public $cargo;
+    public $password
 
-    function __construct($idEmpleado,$nombres,$cargo) {
+    function __construct($idEmpleado,$nombres,$cargo, $password) {
         $this->idEmpleado = $idEmpleado;
         $this->nombres =$nombres;
         $this->cargo =$cargo;
+        $this->password =$password;
     }
     function getCargo(){
         return $this->cargo;
