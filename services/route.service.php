@@ -45,11 +45,11 @@ function __construct(){
 					$password = $_POST["password"]; 
 					try{
 						if ($actor == "administrator") {
-							$this->persistence -> addAdministrator(new Usuario($tipo, $user, $password));
+							$this->persistence -> addAdministrator(new Empleado($user,$actor,$password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}elseif ($actor == "auditor") {
-							$this->persistence -> addAuditor(new Usuario($tipo, $user, $password));
+							$this->persistence -> addAuditor(new Empleado($user,$actor,$password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}else{
@@ -60,13 +60,13 @@ function __construct(){
 					}catch(PDOException $e){
 						print_r($e);
 						header("HTTP/1.1 500 Server Error");
-                        exit();
+                                                exit();
 					}
 					
 					
 					break;
 				case 'user':
-                                        
+                                            
 					if(isset($_POST["solicitud"])){
 						$solicitud = $_POST["solicitud"];
 						switch ($solicitud) {
@@ -108,32 +108,32 @@ function __construct(){
 					}
 					break;
 				case 'auditor':
-                                    if(isset($_POST["solicitud"])){
-                                            $solicitud = $_POST["solicitud"];   
-                                            switch ($solicitud) {
-                                                case 'crearCuenta':
-                                                    $idCuenta = $_POST["numeroDeCuenta"];
-                                                    $tipo = $_POST["tipo"];
-                                                    $persona = $_POST["persona"];
-                                                    $this->persistence -> createAccountUsuario(new Cuenta($idCuenta, $tipo), $persona );
-                                                    header("HTTP/1.1 202 Accepted");
-                                                    exit();
+                                        if(isset($_POST["solicitud"])){
+                                                $solicitud = $_POST["solicitud"];   
+                                                switch ($solicitud) {
+                                                    case 'crearCuenta':
+                                                        $idCuenta = $_POST["numeroDeCuenta"];
+                                                        $tipo = $_POST["tipo"];
+                                                        $persona = $_POST["persona"];
+                                                        $this->persistence -> createAccountUsuario(new Cuenta($idCuenta, $tipo), $persona );
+                                                        header("HTTP/1.1 202 Accepted");
+                                                        exit();
+                                                        break;
+                                                    case 'movimientos':
+                                                        echo json_encode($this->persistence -> todosLosMovimientos());
+                                                        header("HTTP/1.1 202 Accepted");
+                                                        exit();
+                                                        break;
+                                                    case 'totalMovimientos':
+                                                        echo json_encode($this->persistence -> totalDeTransferencias());
+                                                        header("HTTP/1.1 202 Accepted");
+                                                        exit();
+                                                        break;
+                                                    default:
+                                                        # code...
                                                     break;
-                                                case 'movimientos':
-                                                    echo json_encode($this->persistence -> todosLosMovimientos());
-                                                    header("HTTP/1.1 202 Accepted");
-                                                    exit();
-                                                    break;
-                                                case 'totalMovimientos':
-                                                    echo json_encode($this->persistence -> totalDeTransferencias());
-                                                    header("HTTP/1.1 202 Accepted");
-                                                    exit();
-                                                    break;
-                                                default:
-                                                    # code...
-						break;
-                                            }
-                                    }
+                                                }
+                                        }
                                     break;
 				case 'administrator':
 					# code...
