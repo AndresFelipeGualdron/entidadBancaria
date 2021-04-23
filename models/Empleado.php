@@ -9,22 +9,35 @@
 /**
  * Description of Empleado
  *
- * @author yeiso
+ * @author yeison Gualdron
  */
 class Empleado {
     //put your code here
     
-    public $nombres;
-    public $cargo;
-    public $password;
-
-    function __construct($nombres,$cargo, $password) {
-        
-        $this->nombres =$nombres;
-        $this->cargo =$cargo;
-        $this->password =$password;
+    private $is_nombre;
+    private $is_cargo;
+    private $is_password;
+    private $is_tipoIdentificacion;
+    function __construct($as_nombre,$as_cargo, $as_password,$as_tipoIdentificacion) {
+        $this->is_nombre =$as_nombre;
+        $this->is_cargo =$as_cargo;
+        $this->is_password =$as_password;
+        $this->is_tipoIdentificacion = $as_tipoIdentificacion;
     }
     function getCargo(){
-        return $this->cargo;
+        return $this->is_cargo;
     }
+    function getNombre()
+    {
+        return $this->is_nombre;
+    }
+    function getPassword()
+    {
+        return $this->is_password;
+    }
+    function getTipoIdentificacion()
+    {
+        return $this->is_tipoIdentificacion;
+    }
+
 }

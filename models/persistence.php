@@ -11,20 +11,21 @@ class Persistence{
      * @param type Connection
      * @return type
      */
-    function addUser($usuario){
-        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Persona (tipoIdentificacion,nombre,password) values ('$usuario->tipoIdentificacion','$usuario->nombres','$usuario->password')");
+    function addUser($au_usuarioNuevo)
+    {
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare
+        ("insert into dbbank.Persona (tipoIdentificacion,nombre,password) values ('".$as_usuarioNuevo->getTipoIdentificacion()."','".$as_usuarioNuevo->getNombre()."','".$as_usuarioNuevo->getPassword()."')");
         $lmsp_statement->execute();
     }
-    function addAdministrator($usuario){
-        
-        print_r($usuario->tipoIdentificacion);
+    function addAdministrator($ae_empleadoNuevo)
+    {
         $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Empleado (password,tipoIdentificacion,nombre,cargo) "
-                . "values ('$usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Administrator')");
+                . "values ('".$ae_empleadoNuevo->getPassword()."','".$ae_empleadoNuevo->getTipoIdentificacion()."','".$ae_empleadoNuevo->getNombre()."','Administrator')");
         $lmsp_statement->execute();
     }
-    function addAuditor($usuario){
+    function addAuditor($ae_empleadoNuevo){
         $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Empleado (password,tipoIdentificacion,nombre,cargo) "
-                ."values ($usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Auditor')");
+                ."values ('".$ae_empleadoNuevo->getPassword()."','".$ae_empleadoNuevo->getTipoIdentificacion()."','".$ae_empleadoNuevo->getNombre()."','Auditor')");
         $lmsp_statement->execute();
     }
     /**
@@ -107,20 +108,20 @@ class Persistence{
         $ld_valorTotal = $lmsp_statement->fetch();
         return $ld_valorTotal;
     }
-    function getUserById($user){
-        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.User where (id = $user->idUsuario)");
+    function getUserById($ai_idUsuario){
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.User where (id = $ai_idUsuario)");
         $lmsp_statement->execute();
         $lo_user = $lmsp_statement->fetch();
         return($lo_user);
     }
-    function getAdministratorById($empleado){
-        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Administrator where (id = $empleado->idEmpleado)");
+    function getAdministratorById($ai_idEmpleado){
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Administrator where (id = $ai_idEmpleado)");
         $lmsp_statement->execute();
         $lo_adminEmpleado = $lmsp_statement->fetch();
         return($lo_adminEmpleado);
     }
-    function getAuditorById($auditor){
-        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Auditor where (id = $auditor->idEmpleado)");
+    function getAuditorById($ai_idAuditor){
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Auditor where (id = $ai_idAuditor)");
         $lmsp_statement->execute();
         $lo_auditorEmpleado = $lmsp_statement->fetch();
         return($lo_auditorEmpleado);

@@ -17,14 +17,14 @@ function __construct(){
 					$id = $_POST["id"];
 					$user = $_POST["userName"];
 					$password = $_POST["password"];
-					$actor = $_POST["actor"];
-					if($actor == "administrator"){
+					$rol = $_POST["actor"];
+					if($rol == "administrator"){
 						if ($loginService->loginAdministrator(new Empleado($id,$user,"administrator",$password))) {
 							header("HTTP/1.1 202 Accepted");
 							exit();
 						}
-					}elseif ($actor == "auditor") {
-						if ($loginService->loginAuditor(new Empleado($id,$user,"administrator",$password))) {
+					}elseif ($rol == "auditor") {
+						if ($loginService->loginAuditor(new Empleado($id,$user,"auditor",$password))) {
 							header("HTTP/1.1 202 Accepted");
 							exit();
 						}
@@ -38,18 +38,20 @@ function __construct(){
 					exit();
 					break;
 				case 'register':
-					$actor = $_POST["actor"];
+					
 					$user = $_POST["userName"];
                                         /* @var $_POST type */
                                         $tipo = $_POST["tipoIdentificacion"];
 					$password = $_POST["password"]; 
+                                        $rol = $_POST["rol"];
+                                        echo $user;
 					try{
-						if ($actor == "administrator") {
-							$this->persistence -> addAdministrator(new Empleado($user,$actor,$password));
+						if ($rol == "administrador") {
+							$this->persistence -> addAdministrator(new Empleado($user,$rol,$password,$tipo));
 	                                        header("HTTP/1.1 202 Accepted");
-	                                        exit();
-						}elseif ($actor == "auditor") {
-							$this->persistence -> addAuditor(new Empleado($user,$actor,$password));
+	                                        exit();     
+						}elseif ($rol == "auditor") {
+							$this->persistence -> addAuditor(new Empleado($user,$rol, $password,$tipo));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}else{

@@ -4,9 +4,9 @@ class LoginService {
 	function loginAdministrator($empleado){
 		$persistence = new Persistence();
 		$ac = $persistence->getAdministratorById($empleado);
-		if ($empleado->password == $ac->password) {
+		if ($empleado->is_password == $ac->is_password) {
 			$_SESSION["actor"] = "auditor";
-			$_SESSION["names"] = $ac->nombres;
+			$_SESSION["names"] = $ac->is_nombre;
 			return true;
 		}
 		return false;
@@ -15,9 +15,9 @@ class LoginService {
 	function loginAuditor($empleado){
 		$persistence = new Persistence();
 		$ac = $persistence->getAuditorById($empleado);
-		if ($empleado->password == $ac->password) {
+		if ($empleado->is_password == $ac->is_password) {
 			$_SESSION["actor"] = "auditor";
-			$_SESSION["names"] = $ac->nombres;
+			$_SESSION["names"] = $ac->is_nombre;
 			return true;
 		}
 		return false;
@@ -26,9 +26,9 @@ class LoginService {
 	function loginUser($user){
 		$persistence = new Persistence();
 		$ac = $persistence->getUserById($user);
-		if ($user->password == $ac->password) {
+		if ($user->is_password == $ac->is_password) {
 			$_SESSION["actor"] = "auditor";
-			$_SESSION["names"] = $ac->nombres;
+			$_SESSION["names"] = $ac->is_nombre;
 			return true;
 		}
 		return false;		

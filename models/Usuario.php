@@ -7,24 +7,38 @@
  * @author yeison
  */
 class Usuario {
-    //put your code here
-
-    public $tipoIdentificacion;
-    public $nombres;
-    public $password;
+    private $is_tipoIdentificacion;
+    private $is_nombre;
+    private $is_password;
     
-    function __construct( $tipo, $nombres, $password) {
-        $this->nombres=$nombres;
-        $this->password=$password;
-        $this->tipoIdentificacion = $tipo;
+    function __construct( $as_tipoIdentificacion, $as_nombre, $as_password) 
+    {
+        $this->is_nombre=$as_nombre;
+        $this->is_password=$as_password;
+        $this->is_tipoIdentificacion = $as_tipoIdentificacion;
     }    
-    function setNombres($nombres){
-        $this->nombres = $nombres;
+    function setNombres($as_nombre)
+    {
+        $this->is_nombre = $as_nombre;
     }
-    function setPassword($password){
-        $this->password=$password;
+    function setPassword($as_password)
+    {
+        $this->is_password=$as_password;
     }
-    function  setTipoIdentificacion($tipo){
-        $this->tipoIdentificacion= $tipo;
+    function  setTipoIdentificacion($as_tipoIdentificacion)
+    {
+        $this->is_tipoIdentificacion= $as_tipoIdentificacion;
+    }
+    function getNombre()
+    {
+        return $this->is_nombre;
+    }
+        function getPassword()
+    {
+        return $this->is_password;
+    }
+        function getTipoIdentificacion()
+    {
+        return $this->is_tipoIdentificacion;
     }
 }
