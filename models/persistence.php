@@ -1,15 +1,10 @@
 <?php
-/***
- * 
- */
-
 class Persistence{
-    public $conn;
+    public $ic_connectionDataBase;
    
     function __construct(){
-        $this->conn =  new Connection();
+        $this->ic_connectionDataBase =  new Connection();
     }
-
     /**
      * 
      * @param Class Usuario, 
@@ -17,33 +12,20 @@ class Persistence{
      * @return type
      */
     function addUser($usuario){
-        $var=1;
-        $con = $this->conn->connect3()->prepare("insert into dbbank.Persona (identificacion,tipoIdentificacion,nombre,password) values ('$usuario->idUsuario','$usuario->tipoIdentificacion','$usuario->nombres','$usuario->password')");
-        $con->execute();
-        $con=null;
-
-        return($var);
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Persona (tipoIdentificacion,nombre,password) values ('$usuario->tipoIdentificacion','$usuario->nombres','$usuario->password')");
+        $lmsp_statement->execute();
     }
-
     function addAdministrator($usuario){
-        $var=1;
+        
         print_r($usuario->tipoIdentificacion);
-        $con = $this->conn->connect3()->prepare("insert into dbbank.Empleado (idEmpleado,password,tipoIdentificacion,nombre,cargo) "
-                . "values ('$usuario->idUsuario','$usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Administrator')");
-        $con->execute();
-        $con=null;
-
-        return($var);
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Empleado (password,tipoIdentificacion,nombre,cargo) "
+                . "values ('$usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Administrator')");
+        $lmsp_statement->execute();
     }
-
     function addAuditor($usuario){
-        $var=1;
-        $con = $this->conn->connect3()->prepare("insert into dbbank.Empleado (idEmpleado,password,tipoIdentificacion,nombre,cargo) "
-                ."values ('$usuario->idUsuario','$usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Auditor')");
-        $con->execute();
-        $con=null;
-
-        return($var);
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Empleado (password,tipoIdentificacion,nombre,cargo) "
+                ."values ($usuario->password','$usuario->tipoIdentificacion','$usuario->nombres','Auditor')");
+        $lmsp_statement->execute();
     }
     /**
     function modifyUser($idUser,$username){
@@ -52,58 +34,39 @@ class Persistence{
         $this->lista->put($xUser);
         return($var);
     }**/
-
     function deleteUser($idUser){
-        $var=1;
-        $con = $this->conn->connect3()->prepare("delete from dbbank.Persona where identificacion='".$idUser."'");
-        $con->execute();
-        $con=null;
-        return($var);
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("delete from dbbank.Persona where identificacion='".$idUser."'");
+        $lmsp_statement->execute(); 
     }
-    
     function listUsers(){
-        $var=1;
-        $con = $this->conn->connect3()->prepare("select * from dbbank.Persona");
-        $con->execute();
-        print_r($con->fetchAll());
-        $con=null;
-        return($var);
-    }
-    
-    function createAccountUsuario($cuenta, $idUsuario){
-        $var=1;
-        $con = $this->conn->connect3()->prepare("insert into dbbank.Cuenta (idCuenta,saldo,tipo,persona) values (
-               '".$cuenta->idCuenta."','".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
-        $con->execute();
-        $con=null;
-        return($var);
-    }
-    
-    function consultarSaldo($idcuenta){
-        $var=1;
-        $con = $this->conn->connect3()->prepare("select saldo from dbbank.Cuenta where idCuenta='".$idcuenta."'");
-        $con->execute();
-        $saldo = $con->fetch();
-        return $saldo[0];
-    }
-    
-    function  addSaldoCuenta($idcuenta,$valor){
-        $var=1;
-        $valorAnterior = $this->consultarSaldo($idcuenta); 
         
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Persona");
+        $lmsp_statement->execute();
+        print_r($lmsp_statement->fetchAll());
+    }
+    function createAccountUsuario($cuenta, $idUsuario){
+
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("insert into dbbank.Cuenta (idCuenta,saldo,tipo,persona) values (
+               '".$cuenta->idCuenta."','".$cuenta->saldo."','".$cuenta->tipo."','".$idUsuario."')");
+        $lmsp_statement->execute();
+    } 
+    function consultarSaldo($idcuenta){
+       
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select saldo from dbbank.Cuenta where idCuenta='".$idcuenta."'");
+        $lmsp_statement->execute();
+        $saldo = $lmsp_statement->fetch();
+        return $saldo[0];
+    }  
+    function  addSaldoCuenta($idcuenta,$valor){
+        $valorAnterior = $this->consultarSaldo($idcuenta); 
         $valorFinal = $valorAnterior + ($valor);
-        $con = $this->conn->connect3()->prepare("update dbbank.Cuenta set saldo='".$valorFinal."' where idCuenta='".$idcuenta."'");
-        $con->execute();
-        $con=null;
-        return $var;
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("update dbbank.Cuenta set saldo='".$valorFinal."' where idCuenta='".$idcuenta."'");
+        $lmsp_statement->execute();
     }
     function  subSaldoCuenta($idcuenta,$valor){
-        $var=1;
         $valorFinal = $this->consultarSaldo($idcuenta) - ($valor);
-        $con = $this->conn->connect3()->prepare("update dbbank.Cuenta set saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
-        $con->execute();
-        $con=null;
-        return $var;
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("update dbbank.Cuenta set saldo='".$valorFinal."' where idcuenta='".$idcuenta."'");
+        $lmsp_statement->execute();
     }    
     /**
      * 
@@ -112,50 +75,54 @@ class Persistence{
      * Transferir dinero de la cuenta1 a la cuenta2
      */
     function transacction($idcuenta1,$idcuenta2,$valor){
-        echo 'transaccion en proceso';
-        $var=1;
         if( $this->consultarSaldo($idcuenta1)>=$valor){
             $this->subSaldoCuenta($idcuenta1,$valor);
             $this->addSaldoCuenta($idcuenta2,$valor);
-            $con = $this->conn->connect3()->prepare("INSERT INTO dbbank.Transaccion (valor,cuentaOrigen,cuentaDestino) VALUES (
+            $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("INSERT INTO dbbank.Transaccion (valor,cuentaOrigen,cuentaDestino) VALUES (
                '".$valor."','".$idcuenta1."','".$idcuenta2."')");
-            $con->execute();
-            $con=null;
-        } else {
-            #echo "transaccion fallida";
-            
+            $lmsp_statement->execute();
         }
-        #print_r("transaccion realizada!!!");
-        $con=null;
-        return $var;
     }
     function consultarMovimientosCuenta($accountId){
         $listaMovimientos= array();
-        $con = $this->conn->connect3()->prepare("SELECT valor,fechaHora,cuentaOrigen,cuentaDestino FROM dbbank.Transaccion WHERE (cuentaOrigen='".$accountId."' or cuentaDestino='".$accountId."')");
-        $con->execute();
-        while ($fila = $con->fetch()) {
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("SELECT valor,fechaTransaccion,cuentaOrigen,cuentaDestino FROM dbbank.Transaccion WHERE (cuentaOrigen='".$accountId."' or cuentaDestino='".$accountId."')");
+        $lmsp_statement->execute();
+        while ($fila = $lmsp_statement->fetch()) {
             array_push($listaMovimientos,$fila);
         }
-        $con=null;
         return $listaMovimientos;
-        
     }
     function todosLosMovimientos(){
         $listaMovimientos= array();
-        $con = $this->conn->connect3()->prepare("SELECT valor,fechaHora,cuentaOrigen,cuentaDestino FROM dbbank.Transaccion");
-        $con->execute();
-        while ($fila = $con->fetch()) {
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("SELECT valor,fechaTransaccion,cuentaOrigen,cuentaDestino FROM dbbank.Transaccion");
+        $lmsp_statement->execute();
+        while ($fila = $lmsp_statement->fetch()) {
             array_push($listaMovimientos,$fila);
         }
-        $con=null;
         return $listaMovimientos;
     }
     function totalDeTransferencias(){
-        $fila=1;
-        $con = $this->conn->connect3()->prepare("SELECT COUNT(valor) as NumeroDeTransacciones,SUM(valor) as MontoTotalDeTransacciones FROM dbbank.Transaccion");
-        $con->execute();
-        $fila = $con->fetch();
-        $con=null;
-        return $fila;
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("SELECT COUNT(valor) as NumeroDeTransacciones,SUM(valor) as MontoTotalDeTransacciones FROM dbbank.Transaccion");
+        $lmsp_statement->execute();
+        $ld_valorTotal = $lmsp_statement->fetch();
+        return $ld_valorTotal;
+    }
+    function getUserById($user){
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.User where (id = $user->idUsuario)");
+        $lmsp_statement->execute();
+        $lo_user = $lmsp_statement->fetch();
+        return($lo_user);
+    }
+    function getAdministratorById($empleado){
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Administrator where (id = $empleado->idEmpleado)");
+        $lmsp_statement->execute();
+        $lo_adminEmpleado = $lmsp_statement->fetch();
+        return($lo_adminEmpleado);
+    }
+    function getAuditorById($auditor){
+        $lmsp_statement = $this->ic_connectionDataBase->connect3()->prepare("select * from dbbank.Auditor where (id = $auditor->idEmpleado)");
+        $lmsp_statement->execute();
+        $lo_auditorEmpleado = $lmsp_statement->fetch();
+        return($lo_auditorEmpleado);
     }
 }

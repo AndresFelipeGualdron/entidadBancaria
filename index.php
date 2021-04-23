@@ -4,7 +4,7 @@
     include ('models/Cuenta.php');
     include ('models/Usuario.php');
     include 'models/Persistence.php';
-    include "controllers/user.controller.php";
+
     include "services/route.service.php";
     include "services/login.service.php";
 
@@ -12,5 +12,5 @@
 //------
     $route = new Route();
     $route -> initRoute();
-    UserController::init();
+    
     //------------------------------------------------

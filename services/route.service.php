@@ -14,13 +14,27 @@ function __construct(){
 			$ruta = $_GET["ruta"];
 			switch ($ruta) {
 				case 'login':
-					$user = $_POST["user"];
+					$id = $_POST["id"];
+					$user = $_POST["userName"];
 					$password = $_POST["password"];
-					if($user == "admin" && $password == "admin"){
-						header("HTTP/1.1 202 Accepted");
-					}else {
-						header("HTTP/1.1 401 Unauthorized");
+					$actor = $_POST["actor"];
+					if($actor == "administrator"){
+						if ($loginService->loginAdministrator(new Empleado($id,$user,"administrator",$password))) {
+							header("HTTP/1.1 202 Accepted");
+							exit();
+						}
+					}elseif ($actor == "auditor") {
+						if ($loginService->loginAuditor(new Empleado($id,$user,"administrator",$password))) {
+							header("HTTP/1.1 202 Accepted");
+							exit();
+						}
+					}else{
+						if ($loginService->loginUser(new Usuario($id, "CC", $user, $password))) {
+							header("HTTP/1.1 202 Accepted");
+							exit();
+						}
 					}
+					header("HTTP/1.1 401 Unauthorized");
 					exit();
 					break;
 				case 'register':
@@ -52,6 +66,7 @@ function __construct(){
 					
 					break;
 				case 'user':
+                                        
 					if(isset($_POST["solicitud"])){
 						$solicitud = $_POST["solicitud"];
 						switch ($solicitud) {
