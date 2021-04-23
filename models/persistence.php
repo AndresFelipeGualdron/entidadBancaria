@@ -112,6 +112,7 @@ class Persistence{
      * Transferir dinero de la cuenta1 a la cuenta2
      */
     function transacction($idcuenta1,$idcuenta2,$valor){
+        echo 'transaccion en proceso';
         $var=1;
         if( $this->consultarSaldo($idcuenta1)>=$valor){
             $this->subSaldoCuenta($idcuenta1,$valor);

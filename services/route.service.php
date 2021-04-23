@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class Route {
 	private $persistence;
@@ -25,22 +25,21 @@ function __construct(){
 					break;
 				case 'register':
 					$actor = $_POST["actor"];
-					$id = $_POST["id"];
 					$user = $_POST["userName"];
                                         /* @var $_POST type */
                                         $tipo = $_POST["tipoIdentificacion"];
 					$password = $_POST["password"]; 
 					try{
 						if ($actor == "administrator") {
-							$this->persistence -> addAdministrator(new Usuario($id,$tipo, $user, $password));
+							$this->persistence -> addAdministrator(new Usuario($tipo, $user, $password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}elseif ($actor == "auditor") {
-							$this->persistence -> addAuditor(new Usuario($id,$tipo, $user, $password));
+							$this->persistence -> addAuditor(new Usuario($tipo, $user, $password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}else{
-							$this->persistence -> addUser(new Usuario($id,$tipo, $user, $password));
+							$this->persistence -> addUser(new Usuario($tipo, $user, $password));
 	                                        header("HTTP/1.1 202 Accepted");
 	                                        exit();
 						}
@@ -58,6 +57,7 @@ function __construct(){
 						switch ($solicitud) {
 
 							case 'transaccion':
+                                                            echo 'route.service';
                                                             $idCuenta1 = $_POST["cuentaOrigen"];
                                                             $idCuenta2 = $_POST["cuentaDestino"];
                                                             $valor = $_POST["valor"];
